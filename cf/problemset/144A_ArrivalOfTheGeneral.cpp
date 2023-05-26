@@ -6,31 +6,37 @@ int main() {
 	ios::sync_with_stdio(0);
 	cin.tie(0);
 
-	int hidx = -1;
-	int lidx = -1;
-
-	int ht = 0;
-	int lt = -1;;
-
 	int n; cin >> n;
-	for (int i = 0 ; i < n ; ++i) {
+
+	int lidx = 0;
+	int hidx = 0;
+
+	int l; cin >> l;
+	int h = l;
+
+	for (int i = 1 ; i < n; ++i) {
 		int v; cin >> v;
 
-		if (lt < v) {
-			lt = v;
-			lidx = i;
+		if (v > h) {
+			h = v;
+			hidx = i;
 		}
 
-		if (ht > v) {
-			ht = v;
-			hidx = i;
+		if (v <= l) {
+			l = v;
+			lidx = i;
 		}
 	}
 
-	cout << "ht: " << ht << "\n";
-	cout << "lt: " << lt << "\n";
-	cout << "hidx: " << hidx << "\n";
-	cout << "lidx: " << lidx << "\n";
+	int res = 0;
+	res += abs(n-1-lidx);
+	res += abs(hidx);
+
+	if (hidx > lidx) {
+		res -= 1;
+	}
+
+	cout << res << "\n";
 
 	return 0;
 }
