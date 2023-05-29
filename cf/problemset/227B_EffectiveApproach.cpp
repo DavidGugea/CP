@@ -1,45 +1,37 @@
 #include <bits/stdc++.h>
-
+ 
+typedef long double LD;
+typedef long long LL;
+ 
 using namespace std;
-
+ 
+#define sz(A) (int)(A).size()
+#define mp make_pair
+#define pb push_back
+ 
+const int N = int(1e5 + 3);
+ 
+int n, m, pos[N];
+ 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(0);
+    cin >> n;
+    int num;
+    for (int i = 0; i < n; i++) {
+        cin >> num;
+        pos[num] = i + 1;
+    }   
+ 
+    LL sum1 = 0, sum2 = 0;
 
-	int n; cin >> n;
-	vector<int> v;
-	int val;
-
-	for (int i = 0 ; i < n; ++i) {
-		cin >> val;
-		v.push_back(val);
-	}
-
-	int vasya = 0; // 1 -> n
-	int petya = 0; // n -> 1
-
-	int m;
-	cin >> m;
-
-	// 1 2 3 4 5
-	// 0 1 2 3 4
-
-	for (int i = 0 ; i < m ; ++i) {
-		int search_value; cin >> search_value;
-		int count = 0;
-
-		for (int j = 0 ; j < n; ++j) {
-			vasya++;
-			count++;
-
-			if (v[j] == search_value) {
-				petya += n - count + 1;
-				break;
-			}
-		}
-	}
-
-	cout << vasya << " " << petya << "\n";
-
-	return 0;
+    int q;
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        cin >> q;
+        sum1 += pos[q];
+        sum2 += n - pos[q] + 1;             
+    }
+ 
+    cout << sum1 << " " << sum2 << "\n";
+ 
+    return 0;
 }
