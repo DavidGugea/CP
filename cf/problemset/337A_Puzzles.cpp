@@ -10,33 +10,18 @@ int main() {
 	int m; cin >> m;
 
 	vector<int> v;
-	int s = INT_MAX;
-	int b = -1;
-	int res;
-
 	int val;
 	for (int i = 0 ; i < m; ++i) {
 		cin >> val;
 		v.push_back(val);
-
-		if (i < n) {
-			s = min(s, val);
-			b = max(b, val);
-		}
 	}
 
-	res = abs(s-b);
+	sort(v.begin(), v.end());
 
-	int i = 0;
-	int j = n-1;
+	int res = INT_MAX;
 
-	while (j < v.size()) {
-		s = min(s, v[j+1]);
-		b = max(b, v[j+1]);
-		res = min(res, abs(s-b));
-
-		++i;
-		++j;
+	for (int i = 0 ; i < m-n+1; ++i) {
+		res = min(res, (v[i+n-1]-v[i]));
 	}
 
 	cout << res << "\n";
