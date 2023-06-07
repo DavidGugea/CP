@@ -2,34 +2,42 @@
 
 using namespace std;
 
-int get_min(int n, vector<int> val) {
-	sort(val.begin(), val.end());
+int get_min(int n, vector<int> v) {
+	sort(v.begin(), v.end());
 
+	int i = 0;
 	int res = 0;
-	bool done = false;
+	while (n > 0) {
+		while (v[i] > 0) {
+			res += v[i];
+			v[i]--;
+			n--;
 
-	for (int i = 0; i < val.size(); ++i) {
-		if (done) break;
-
-		while (val[i] > 0) {
-			res += val[i];
-			val[i]--;
-			n -= 1;
-
-			if (n == 0) {
-				done = true;
-				break;
-			}
+			if (n == 0) break;
 		}
+
+		++i;
 	}
 
 	return res;
 }
 
-int get_max(int n, vector<int> val) {
-	sort(val.rbegin(), val.rend());
+int get_max(int n, vector<int> v) {
+	priority_queue<int> ql;
+	for (int d : v) {
+		ql.push(d);
+	}
 
-	
+	int res = 0;
+	while (n--) {
+		int t = ql.top(); ql.pop();
+		res += t;
+
+		t--;
+		ql.push(t);
+	}
+
+	return res;
 }
 
 int main() {
@@ -45,10 +53,10 @@ int main() {
 		v.push_back(val);
 	}
 
-	int min_res = get_min(n, v);
-	int max_res = get_max(n, v);
+	int res1 = get_min(n, v);
+	int res2 = get_max(n, v);
 
-	cout << max_res << " " << min_res << "\n";
+	cout << res2 << " " << res1 << "\n";
 
 	return 0;
 }
