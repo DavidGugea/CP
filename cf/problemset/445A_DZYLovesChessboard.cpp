@@ -9,35 +9,62 @@ int main() {
     int n; cin >> n;
     int m; cin >> m;
 
-    vector<string> res;
+    vector<string> result;
 
-    for (int i = 0; i < n; ++i) {
+    string initrow; cin >> initrow;
+
+    string tmpinitrow = "";
+    for (int i = 0; i < initrow.size(); ++i) {
+        if (initrow[i] == '-') {
+            tmpinitrow += initrow[i];
+            continue;
+        }
+
+        if (i > 0 && tmpinitrow[i-1] == 'W') {
+            tmpinitrow += 'B';
+        } else {
+            tmpinitrow += 'W';
+        }
+    }
+
+    result.push_back(tmpinitrow);
+
+    for (int i = 1; i < n; ++i) {
         string row; cin >> row;
-        string add = "";
+        string tmp = "";
 
-        for (int j = 0; j < row.size(); ++j) {
+        if (row[0] == '.') {
+            if (result[i-1][0] == 'W') {
+                tmp += 'B';
+            } else {
+                tmp += 'W';
+            }
+        } else if (row[0] == '-') {
+            tmp += row[0];
+        }
+
+        for (int j = 1; j < row.size(); ++j) {
             if (row[j] == '-') {
-                add += '-';
+                tmp += row[j];
                 continue;
             }
 
             if (
-                (add[add.size()-1] != 'B')
-                && 
-                (i > 0 && res[i-1][j] != 'B')
+                (result[i-1][j] == 'W')
+                ||
+                (row[j-1] == 'W')
             ) {
-                cout << "ADDED W: " << add[add.size()-1] << "\n";
-                add += 'W';
+                tmp += 'B';
             } else {
-                add += 'B';
+                tmp += 'W';
             }
         }
 
-        res.push_back(add);
+        result.push_back(tmp);
     }
 
-    for (string s : res) {
-        cout << s << "\n";
+    for (string res : result) {
+        cout << res << "\n";
     }
 
     return 0;
