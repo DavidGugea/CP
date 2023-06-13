@@ -6,43 +6,48 @@ int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int n; cin >> n;
-	int k; cin >> k;
-	vector<int> nums;
+	int n, k;
+	cin >> n >> k;
+	--k;
 
+	vector<int> a(n);
+	bool all_equal_flag = true;
 	for (int i = 0; i < n; ++i) {
 		int val; cin >> val;
-		nums.push_back(val);
-	}
-	
-	int res = 0;
-	bool sorted = false;
-	for (int i = 0; i < n*2; ++i) {
-		int c = nums[k];
-		nums.erase(nums.begin());
-		nums.push_back(c);
+		a[i] = val;
 
-		bool flag = true;
-		for (int j = 0; j < nums.size()-1; ++j) {
-			if (nums[j] != nums[j+1]) {
+		if (i > 0 && a[i] != a[i-1]) {
+			all_equal_flag = false;
+		}
+	}
+
+	if (all_equal_flag) {
+		cout << "0\n";
+		return 0;
+	}
+
+	bool flag = true;
+
+	if (k != n-1) {
+		for (int i = k; i < n-1; ++i) {
+			if (a[i] != a[i+1]) {
 				flag = false;
 				break;
 			}
 		}
-
-		++res;
-
-		if (flag) {
-			sorted = true;
-			cout << "sorted\n";
-			break;
-		}
 	}
 
-	if (sorted)
-		cout << res << "\n";
-	else
+	if (!flag) {
 		cout << "-1\n";
+		return 0;
+	}
 
-	return 0;
+	int i = k-1;
+	while (a[i] == a[n-1]) {
+		--i;
+	}
+
+	cout << i+1 << "\n";
+
+    return 0;
 }
