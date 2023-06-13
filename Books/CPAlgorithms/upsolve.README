@@ -1,0 +1,5 @@
+## Parts of cp-algorithms that must be "upsolved"
+
+- https://cp-algorithms.com/algebra/primality_tests.html [Fermat Primarlity Test]
+- https://cp-algorithms.com/algebra/factorization.html [ Precomputed Primes]
+- https://cp-algorithms.com/algebra/phi-function.html [Euler totient function from 1 to n in ```O(n log log n)```]
