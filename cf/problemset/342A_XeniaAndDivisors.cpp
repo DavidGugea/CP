@@ -7,75 +7,50 @@ int main() {
 	cin.tie(0);
 
 	int n; cin >> n;
-	vector<int> a(n);
-	for (int i = 0; i < n; ++i) {
-		int val; cin >> val;
-		a[i] = val;
+	unordered_map<int, int> a;
+	for (int i = 1; i <= 7; ++i) {
+		a.insert(make_pair(i, 0));
 	}
 
-	sort(a.begin(), a.end());
+	for (int i = 0; i < n; ++i) {
+		int val; cin >> val;
+		a[val]++;
+	}
 
-	/*
-	1 1 1 2 2 2 -> 3 groups
-	0 1 2 3 4 5
-
-	1 1 2 2 3 3 -> 3 groups
-	0 1 2 3 4 5
-
-	1 1 2 2 4 6 -> 3 groups
-	0 1 2 3 4 5
-
-	*/
-
-	/*
-	cout << "--------\n";
-	cout << a[n/3-1] << "\n";
-	cout << a[n/3] << "\n";
-	cout << a[2*n/3-1] << "\n";
-	cout << a[2*n/3] << "\n";
-	cout << "--------\n";
-	*/
-
-	if (a[n/3-1] == a[n/3] || a[2*n/3-1] == a[2*n/3]) {
+	if (a[5] != 0 || a[7] != 0) {
 		cout << "-1\n";
 		return 0;
 	}
 
-	vector<int> i;
-	vector<int> j;
-	vector<int> k;
+	vector<tuple<int, int, int>> v{
+		{1, 2, 4},
+		{1, 2, 6},
+		{1, 3, 6},
+	};
 
-	int idx = 0;
-	int jdx = n/3;
-	int kdx = 2*n/3;
+	vector<string> res;
+	for (tuple<int, int, int> t : v) {
+		int i = get<0>(t);
+		int j = get<1>(t);
+		int k = get<2>(t);
 
-	for (int l = 0; l < n/3; ++l) {
-		i.push_back(a[idx]);
-		j.push_back(a[jdx]);
-		k.push_back(a[kdx]);
+		while (a[i] != 0 && a[j] != 0 && a[k] != 0) {
+			string s = to_string(i) + " " + to_string(j) + " " + to_string(k) + "\n";
+			res.push_back(s);
 
-		++idx;
-		++jdx;
-		++kdx;
+			a[i]--;
+			a[j]--;
+			a[k]--;
+		}
 	}
 
-	cout << "vector<int> i:\n";
-	for (int l : i) {
-		cout << l << " ";
+	if (a[1] != 0 || a[2] != 0 || a[3] != 0 || a[4] != 0 || a[6] != 0) {
+		cout << "-1\n";
+	} else {
+		for (string s : res) {
+			cout << s;
+		}
 	}
-	cout << "\n";
-	cout << "vector<int> j:\n";
-	for (int l : j) {
-		cout << l << " ";
-	}
-	cout << "\n";
-	cout << "vector<int> k:\n";
-	for (int l : k) {
-		cout << l << " ";
-	}
-	cout << "\n";
-
-	
 
 	return 0;
 }
