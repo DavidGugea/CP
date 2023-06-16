@@ -1,55 +1,42 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+
+typedef long long int ll;
 
 using namespace std;
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(0);
+    ll i,j,k;
+    bool f1=true;
+    map<char,int> mp;
+    string s1,s2;
 
-	string s1, s2;
-	cin >> s1 >> s2;
-	getline(cin, s1);
-	getline(cin, s2);
+    getline(cin,s1);
+    getline(cin,s2);
 
-	cout << "\n";
-	cout << "s1: " << s1 << "\n";
-	cout << "s2: " << s2 << "\n";
+    for(i=0;i<s1.length();i++)
+    {
+        mp[s1[i]]++;
+    }
 
-	/*
-	unordered_map<char, int> m1;
-	unordered_map<char, int> m2;
+    for(i=0;i<s2.length();i++)
+    {
+        if(mp[s2[i]]>0 || s2[i]==' ')
+        {
+            mp[s2[i]]--;
+            continue;
+        }
 
-	for (char c : s1) {
-		auto it = m1.find(c);
+        else
+        {
+            f1=false;
+            break;
+        }
+    }
 
-		if (it == m1.end()) {
-			m1.insert(make_pair(c, 0));
-		} else {
-			m1[c]++;
-		}
-	}
+    if(f1==true)
+        cout<<"YES";
+    else
+        cout<<"NO";
 
-	for (char c : s2) {
-		auto it = m2.find(c);
-
-		if (it == m2.end()) {
-			m2.insert(make_pair(c, 0));
-		} else {
-			m2[c]++;
-		}
-	}
-
-	for (pair<char, int> p : m2) {
-		auto it = m1.find(p.first);
-
-		if (it == m1.end() || p.second != it->second) {
-			cout << "NO\n";
-			return 0;
-		}
-	}
-
-	cout << "YES\n";
-	*/
-
-	return 0;
+    return 0;
 }
