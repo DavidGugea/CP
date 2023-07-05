@@ -1,25 +1,26 @@
 #include <bits/stdc++.h>
 
 using namespace std;
+typedef long long ll;
 
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    int n, k;
+    ll n, k;
     cin >> n >> k;
-    vector<int> a(n);
+    vector<ll> a(n);
     for (int i = 0; i < n; ++i)
     {
         cin >> a[i];
     }
 
-    for (int i = 0; i < a.size(); ++i)
+    for (int i = 0; i < n; ++i)
     {
         if (a[i] < 0)
         {
-            a[i] = -a[i];
+            a[i] *= -1;
             --k;
 
             if (k == 0)
@@ -32,6 +33,20 @@ int main()
             break;
         }
     }
+
+    sort(a.begin(), a.end());
+
+    if (k > 0 && (k % 2 != 0))
+    {
+        a[0] *= -1;
+    }
+
+    ll count = 0;
+    for (int i = 0; i < n; ++i)
+    {
+        count += a[i];
+    }
+    cout << count << "\n";
 
     return 0;
 }
