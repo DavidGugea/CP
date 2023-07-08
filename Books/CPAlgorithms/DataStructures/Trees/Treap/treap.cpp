@@ -38,3 +38,21 @@ void split(pitem t, int key, pitem &l, pitem &r)
         r = t;
     }
 }
+
+void insert(pitem &node, pitem new_item)
+{
+    if (!node)
+    {
+        node = new_item;
+    }
+    else if (new_item->prior > node->prior)
+    {
+        // can insert at this place.
+        split(node, new_item, new_item->l, new_item->r);
+        node = new_item;
+    }
+    else
+    {
+        insert(node->key <= new_item->key ? node->left : node->right, new_item);
+    }
+}
