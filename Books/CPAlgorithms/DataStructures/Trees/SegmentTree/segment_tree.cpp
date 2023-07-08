@@ -1,22 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int MAX_N = 100'007;
+int MAXN = 100'007;
+int n, t[4 * MAXN];
 
-int n;
-int t[4 * MAXN];
-
-void build(int a[], int v, int tl, int tr)
+void build(int[], int v, int tl, int tr)
 {
     if (tl == tr)
     {
+        // leaf node t[0..0] = a[0]
+        // leaf node t[1..1] = a[0]
+        // leaf node t[x..x] = a[x]
         t[v] = a[tl];
     }
     else
     {
+        // build middle
         int tm = (tl + tr) / 2;
+
+        // recursive -> left and right
+        // indexing is 1 based and works like binary heap indexing
         build(a, v * 2, tl, tm);
         build(a, v * 2 + 1, tm + 1, tr);
+
+        // sum both child vertices
         t[v] = t[v * 2] + t[v * 2 + 1];
     }
 }
@@ -24,10 +31,13 @@ void build(int a[], int v, int tl, int tr)
 int sum(int v, int tl, int tr, int l, int r)
 {
     if (l > r)
+    {
         return 0;
+    }
 
     if (l == tl && r == tr)
     {
+        // find the right bounds
         return t[v];
     }
 
@@ -35,7 +45,7 @@ int sum(int v, int tl, int tr, int l, int r)
     return sum(v * 2, tl, tm, l, min(r, tm)) + sum(v * 2 + 1, tm + 1, tr, max(l, tm + 1), r);
 }
 
-int update(int v, int tl, int tr, int pos, int new_val)
+void update(int v, int tl, int tr, int pos, int new_val)
 {
     if (tl == tr)
     {
@@ -45,6 +55,7 @@ int update(int v, int tl, int tr, int pos, int new_val)
     {
         int tm = (tl + tr) / 2;
 
+        // send it right or send it left depending on the pos in a[pos]
         if (pos <= tm)
         {
             update(v * 2, tl, tm, pos, new_val);
@@ -54,14 +65,6 @@ int update(int v, int tl, int tr, int pos, int new_val)
             update(v * 2 + 1, tm + 1, tr, pos, new_val);
         }
 
-        t[v] = t[v * 2] + t[v * 2] + 1;
+        t[v] = t[v * 2] + t[v * 2 + 1];
     }
-}
-
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-
-    return 0;
 }
