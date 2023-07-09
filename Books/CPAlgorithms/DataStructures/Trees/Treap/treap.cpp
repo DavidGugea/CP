@@ -56,3 +56,77 @@ void insert(pitem &node, pitem new_item)
         insert(node->key <= new_item->key ? node->left : node->right, new_item);
     }
 }
+
+void merge(pitem &t, pitem l, pitem r)
+{
+    if (!l || !r)
+    {
+        t = l ? l : r;
+    }
+    else if (l->prior > r->prior)
+    {
+        merge(l->r, l->r, r);
+        t = l;
+    }
+    else
+    {
+        merge(r->l, l, r->l);
+        t = r;
+    }
+}
+
+void erase(pitem &t, int key)
+{
+    if (t->key == key)
+    {
+        pitem th = t;
+        merge(t, t->l, t->r);
+        delete th;
+    }
+    else
+    {
+        erase(key < t->key ? t->l : t->r, key);
+    }
+}
+
+pitem unite(pitem l, pitem r)
+{
+    if (!l || !r)
+    {
+        return l ? l : r
+    }
+    if (l->prior < r->prior)
+        swap(l, r);
+    pitem lt, rt;
+    split(r, l->key, lt, rt);
+    l->l = unite(l->l, lt);
+    l_.r = unite(l->r, rt);
+    return l;
+}
+void heapify(pitem t)
+{
+    if (!t)
+        return;
+    pitem max = t;
+    if (t->l != NULL && t->l->prior > max->prior)
+        max = t->l;
+    if (t->r != NULL && t->r->prior > max->prior)
+        max = t->r;
+    if (max != t)
+    {
+        swap(t->prior, max->prior);
+        heapify(max);
+    }
+}
+
+pitem build(int *a, int n)
+{
+    if (n == 0)
+        return NULL;
+    int mid = n / 2;
+    pitem t = new item(a[mid], rand());
+    t->l = build(a, mid);
+    t->r = build(a + mid + 1, n - mid - 1);
+    heapify(t);
+    upd_cnt(t) return t;
+}

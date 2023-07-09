@@ -6,3 +6,11 @@
 - https://cp-algorithms.com/algebra/phi-function.html [Euler totient function from 1 to n in ```O(n log log n)```]
 - https://cp-algorithms.com/algebra/module-inverse.htm [Finding the modular inverse for array of numbers modulo m]
 - https://cp-algorithms.com/algebra/chinese-remainder-theorem.html#implementation [Solution for general case]
+
+# Data Structures
+
+- Sqrt Tree
+
+# String Processing
+
+- Z Function optimization
