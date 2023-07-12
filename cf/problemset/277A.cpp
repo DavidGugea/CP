@@ -62,60 +62,52 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    int n, m;
-    cin >> n >> m;
-    int nolang = 0;
-
     DisjointSetUnion dsu;
     unordered_map<int, int> hm;
+    int no_lang = 0;
 
+    int n, m;
+    cin >> n >> m;
     for (int i = 0; i < n; ++i)
     {
         int k;
         cin >> k;
-        dsu.make_set(i);
 
         if (k == 0)
         {
-            nolang++;
+            no_lang++;
         }
 
         for (int j = 0; j < k; ++j)
         {
             int l;
             cin >> l;
+
             auto it = hm.find(l);
 
             if (it == hm.end())
             {
+                dsu.make_set(i);
                 hm.insert(make_pair(l, i));
             }
             else
             {
-                dsu.union_sets(hm[l], i);
+                dsu.union_sets(i, hm[l]);
             }
         }
     }
 
-    int a = dsu.x();
-    int res = 0;
-    if (a == 0)
+    cout << "------------------\n";
+    for (pair<int, int> p : hm)
     {
-        if (nolang == n)
-        {
-            res = nolang;
-        }
-        else
-        {
-            res = n - 1;
-        }
+        cout << p.first << " " << p.second << "\n";
     }
-    else
+    cout << "------------------\n";
+    for (int i = 0; i < n; ++i)
     {
-        res = dsu.x() + nolang - 1;
+        cout << i << " " << dsu.find_set(i) << "\n";
     }
-
-    cout << res << "\n";
+    cout << "------------------\n";
 
     return 0;
 }
