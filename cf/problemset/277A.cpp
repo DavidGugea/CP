@@ -1,11 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef long long ll;
+
 class DisjointSetUnion
 {
 public:
-    unordered_map<int, int> parent;
-    unordered_map<int, int> size;
+    unordered_map<ll, ll> parent;
+    unordered_map<ll, ll> size;
 
     void make_set(int v)
     {
@@ -18,7 +20,7 @@ public:
         }
     }
 
-    int find_set(int v)
+    ll find_set(ll v)
     {
         if (v == parent[v])
         {
@@ -28,7 +30,7 @@ public:
         return parent[v] = find_set(parent[v]);
     }
 
-    void union_sets(int a, int b)
+    void union_set(ll a, ll b)
     {
         a = find_set(a);
         b = find_set(b);
@@ -42,17 +44,18 @@ public:
         size[a] += size[b];
     }
 
-    int x()
+    ll csq()
     {
-        // get number of sets in the dsu that have more than one element.
-        int res = 0;
-        for (pair<int, int> p : parent)
+        ll res = 0;
+
+        for (pair<ll, ll> p : parent)
         {
             if (p.first == p.second && size[p.first] > 1)
             {
                 ++res;
             }
         }
+
         return res;
     }
 };
@@ -63,51 +66,81 @@ int main()
     cin.tie(0);
 
     DisjointSetUnion dsu;
-    unordered_map<int, int> hm;
     int no_lang = 0;
-
-    int n, m;
+    unordered_map<ll, ll> l;
+    vector<ll> used;
+    ll n, m;
     cin >> n >> m;
-    for (int i = 0; i < n; ++i)
+
+    for (ll i = 0; i < n; ++i)
     {
-        int k;
+        ll k;
         cin >> k;
 
         if (k == 0)
         {
-            no_lang++;
+            ++no_lang;
+            continue;
         }
 
-        for (int j = 0; j < k; ++j)
+        dsu.make_set(i);
+        used.push_back(i);
+
+        for (ll j = 0; j < k; ++j)
         {
-            int l;
-            cin >> l;
+            ll lang;
+            cin >> lang;
 
-            auto it = hm.find(l);
+            auto it = l.find(lang);
 
-            if (it == hm.end())
+            if (it == l.end())
             {
-                dsu.make_set(i);
-                hm.insert(make_pair(l, i));
+                l.insert(make_pair(lang, i));
             }
             else
             {
-                dsu.union_sets(i, hm[l]);
+                dsu.union_set(i, l[lang]);
             }
         }
     }
 
-    cout << "------------------\n";
-    for (pair<int, int> p : hm)
-    {
-        cout << p.first << " " << p.second << "\n";
-    }
-    cout << "------------------\n";
+    /*
+    cout << "-------------------\n";
     for (int i = 0; i < n; ++i)
     {
-        cout << i << " " << dsu.find_set(i) << "\n";
+        cout << i << ": parent: " << dsu.parent[i] << "| size: " << dsu.size[i] << "\n";
     }
-    cout << "------------------\n";
+    cout << "-------------------\n";
+    */
+
+    ll csq = dsu.csq();
+    ll sc = 0;
+    for (ll i : used)
+    {
+        if (dsu.size[i] == 1 && dsu.parent[i] == i)
+        {
+            sc++;
+        }
+    }
+
+    /*
+    cout << "no_lang: " << no_lang << "\n";
+    cout << "components of dsu with more than 1 elements: " << csq << "\n";
+    cout << "amount of 1 element components " << sc << "\n";
+    */
+
+    ll res = 0;
+
+    if (csq == 0 && sc == 0)
+    {
+        res = no_lang;
+    }
+    else
+    {
+        res = csq + sc + no_lang - 1;
+    }
+
+    cout << res << "\n";
 
     return 0;
 }
